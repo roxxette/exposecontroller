@@ -90,7 +90,10 @@ func (s *RouteStrategy) Add(svc *api.Service) error {
 
 	path := ""
 	if s.usePath {
-		path = "/" + svc.Name
+		path := svc.Annotations["fabric8.io/ingress.path"]
+		if len(path) == 0 {
+			path = "/" + svc.Name
+		}
 	}
 	var hostName string
 	protocol := "http"
